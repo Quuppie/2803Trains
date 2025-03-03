@@ -1,4 +1,4 @@
-%% LCSMAIN.m
+%% Code to model the theory behind the mechanism
 clear; close all; clc;
 
 %% Givens / Constants
