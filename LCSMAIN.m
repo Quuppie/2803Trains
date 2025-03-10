@@ -7,17 +7,19 @@ l = 0.26;     % [m]
 d = 0.155;    % [m]
 
 theta = linspace(0, 360*6, 1000);  % [deg]
-w = [1,2,3,4,5,6];                 % [deg/s]
+%w = [1,2,3,4,5,6]; % deg/s
 
 
 %% Modeling the Equations
-v_mod = zeros(length(theta), length(w));
 
-for i = 1:length(w)
-    % Model
-    v_mod(:, i) = LCSMODEL(r, d, l, theta, w(i));
+n = 6;
+
+for i = 1:n
     % Data
     [theta_exp,w_exp,v_exp,time] = LCSDATA(i);
+    % Model
+    w = mean(w_exp)*(pi/180);
+    v_mod(:, i) = LCSMODEL(r, d, l, theta, w);
     % Plotting
     figure(1)
 
@@ -25,7 +27,7 @@ for i = 1:length(w)
     hold on
     plot(theta_exp,v_exp)
     plot(theta, v_mod(:,i))
-    xlim([0,360*length(w)])
+    xlim([0,360*n])
     xlabel("\theta (deg)")
     ylabel("Collar Velocity (cm/s)")
     legend("Velocity From Data","Velocity From Model","Location","southoutside")
