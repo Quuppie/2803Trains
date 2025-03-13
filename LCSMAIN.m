@@ -7,8 +7,6 @@ l = 0.26;     % [m]
 d = 0.155;    % [m]
 
 theta = linspace(0, 360*7, 1000);  % [deg]
-%w = [1,2,3,4,5,6]; % deg/s
-
 
 %% Modeling the Equations
 
@@ -22,12 +20,12 @@ for i = 1:6
     v_mod = LCSMODEL(r, d, l, theta_exp, w_exp);
 
     % Residual
-    res_exp = v_exp - v_exp;
-    res_mod = v_mod - transpose(v_exp);
-    std_res = std(res_mod);
-    abs_res_exp = abs(v_exp) - abs(v_exp);
-    abs_res_mod = abs(v_mod) - transpose(abs(v_exp));
-    abs_std_res = std(abs_res_mod);
+    res_exp = transpose(v_exp) - v_mod;
+    res_mod = v_mod - v_mod;
+    std_res = std(res_exp);
+    abs_res_exp = transpose(abs(v_exp)) - abs(v_mod);
+    abs_res_mod = abs(v_mod) - abs(v_mod);
+    abs_std_res = std(abs_res_exp);
 
     % Plotting
     PlotName = num2str(i+4) + ".5 V";
@@ -38,6 +36,7 @@ for i = 1:6
     plot(theta_exp,v_exp)
     plot(theta_exp, v_mod)
     xlim([0,360*n])
+    ylim([-300 300])
     xlabel("\theta (deg)")
     ylabel("Collar Velocity (cm/s)")
     legend("Velocity From Data","Velocity From Model","Location","southoutside")
@@ -50,9 +49,10 @@ for i = 1:6
     plot(time,res_mod)
     yline(std_res)
     xlim([min(time) max(time)])
+    ylim([-40 40])
     xlabel("Time (s)")
     ylabel("Collar Velocity Residual(cm/s)")
-    legend("Data (Baseline)","Model Residual","std. of Residual","Location","southoutside")
+    legend("Data Residual","Model (Baseline)","std. of Residual","Location","southoutside")
     title(PlotName)
 
     figure(3)
@@ -62,35 +62,39 @@ for i = 1:6
     plot(time,abs_res_mod)
     yline(abs_std_res)
     xlim([min(time) max(time)])
+    ylim([-40 40])
     xlabel("Time (s)")
     ylabel("Abs. Collar Velocity Residual(cm/s)")
-    legend("Data (Baseline)","Abs. Model Residual","std. of Abs. Residual","Location","southoutside")
+    legend("Data Abs. Residual","Model (Baseline)","std. of Abs. Residual","Location","southoutside")
     title(PlotName)
 
     figure(4)
     subplot(2,3,i)
     hold on
-    plot(time,res_mod)
-    plot(time,abs_res_mod)
+    plot(time,res_exp)
+    plot(time,abs_res_exp)
     xlim([min(time) max(time)])
+    ylim([-40 40])
     xlabel("Time (s)")
     ylabel("Collar Velocity Residual(cm/s)")
-    legend("Model Residual","Abs. Model Residual","Location","southoutside")
+    legend("Data Residual","Data Abs. Residual","Location","southoutside")
     title(PlotName)
 
     figure(5)
     hold on
-    plot(time,res_mod)
+    plot(time,res_exp)
     if i == 1
     xlim([min(time) max(time)])
     end
+    ylim([-40 40])
     xlabel("Time (s)")
     ylabel("Collar Velocity Residual(cm/s)")
 
     figure(6)
     hold on
-    plot(theta_exp,res_mod)
+    plot(theta_exp,res_exp)
     xlim([0,360*n])
+    ylim([-40 40])
     xlabel("\theta (deg)")
 end
 
