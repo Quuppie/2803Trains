@@ -106,6 +106,25 @@ figure(6)
 legend("5.5v","6.5v","7.5v","8.5v","9.5v","10.5v","Location","eastoutside")
 title("Theta vs Residuals")
 
+
+figure(1)
+print('WheelPosCollarVel', '-dpng','-r300')
+
+figure(2)
+print('CollarVelResiduals', '-dpng','-r300')
+
+figure(3)
+print('AbsoluteCollarVelResiduals', '-dpng','-r300')
+
+figure(4)
+print('TimevBothSplot', '-dpng','-r300')
+
+figure(5)
+print('TimevBothTogether', '-dpng','-r300')
+
+figure(6)
+print('WheelPosvBoth', '-dpng','-r300')
+
 %% Model Function
 function v_B = LCSMODEL(r, d, l, theta, w)
     w = w * (pi/180); % converts w to rad/s
